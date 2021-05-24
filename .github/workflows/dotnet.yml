@@ -23,9 +23,11 @@ jobs:
         dotnet-version: 5.0.x
         source-url: ${{ env.NUGET_URL }}
     - name: Restore dependencies
-      run: dotnet restore ${{ env.MAIN_PROJECT }}
+      run: dotnet restore
     - name: Build
-      run: dotnet build ${{ env.MAIN_PROJECT }} --no-restore
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
     - name: Publish
       run: dotnet publish ${{ env.MAIN_PROJECT }} -c Release --version-suffix "criteo"
 
