@@ -8,6 +8,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
   NUGET_URL: https://nuget.pkg.github.com/${{ github.REPOSITORY_OWNER }}/index.json
 jobs:
   build:
