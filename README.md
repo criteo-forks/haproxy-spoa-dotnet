@@ -1,3 +1,4 @@
+# criteo-fork of https://github.com/haproxytech/haproxy-spoa-dotnet. Fork address https://github.com/criteo-forks/haproxy-spoa-dotnet
 # HAProxy Stream Processing Offload Agent (SPOA) for .NET Core
 
 The HAProxy [Stream Processing Offload Protocol](https://github.com/haproxy/haproxy/blob/master/doc/SPOE.txt) (SPOP) allows traffic data to be streamed to an external agent. This library allows you to write that agent using [.NET Core](https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet).
