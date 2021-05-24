@@ -1,0 +1,39 @@
+name: .NET
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  NUGET_URL: https://api.nuget.org/v3/index.json
+  PUBLISHED_ARTEFACT_VERSION: 1.0.3-criteo
+  PUBLISHED_ARTEFACT_NAME: haproxy-spoa-v${{ env.ARTEFACT_VERSION }}
+  MAIN_PROJECT: HAProxy.StreamProcessingOffload.Agent/HAProxy.StreamProcessingOffload.Agent.csproj
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.1.x
+        source-url: ${{ env.NUGET_URL }}
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore -c Release
+    - name: Test
+      run: dotnet test --no-build --verbosity normal -c Release
+    - name: Publish
+      run: dotnet publish ${{ env.MAIN_PROJECT }} -c Release --version-suffix "criteo"
+    - name: 'Tar and Zip files'
+      run: tar --czvf ${{env.PUBLISHED_ARTEFACT_NAME}}.tar.gz /home/runner/work/haproxy-spoa-dotnet/haproxy-spoa-dotnet/HAProxy.StreamProcessingOffload.Agent/bin/Release/netstandard2.0/publish/**
+    - name: 'Upload Artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{env.PUBLISHED_ARTEFACT_NAME}}
+        path: ${{env.PUBLISHED_ARTEFACT_NAME}}.tar.gz
