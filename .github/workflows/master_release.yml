@@ -4,13 +4,15 @@ on:
   push:
     branches: [ master ]
 
+env:
+  PUBLISHED_ARTEFACT_VERSION: 1.0.3-criteo
+      
 jobs:
   release-master-tar:
     runs-on: ubuntu-latest
     env:
       MAIN_PROJECT: HAProxy.StreamProcessingOffload.Agent/HAProxy.StreamProcessingOffload.Agent.csproj
       TEST_PROJECT: HAProxy.StreamProcessingOffload.Agent.Tests/HAProxy.StreamProcessingOffload.Agent.Tests.csproj
-      PUBLISHED_ARTEFACT_VERSION: 1.0.3-criteo
       PUBLISHED_ARTEFACT_NAME: haproxy-spoa-v${{ env.ARTEFACT_VERSION }}
     steps:
     - uses: actions/checkout@v2
