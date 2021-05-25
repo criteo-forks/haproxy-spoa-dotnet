@@ -6,12 +6,10 @@ on:
   pull_request:
     branches: [ master ]
 
-env:
-  NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  NUGET_URL: https://api.nuget.org/v3/index.json
-  MAIN_PROJECT: HAProxy.StreamProcessingOffload.Agent/HAProxy.StreamProcessingOffload.Agent.csproj
-  TEST_PROJECT: HAProxy.StreamProcessingOffload.Agent.Tests/HAProxy.StreamProcessingOffload.Agent.Tests.csproj
 jobs:
+  env:
+    MAIN_PROJECT: HAProxy.StreamProcessingOffload.Agent/HAProxy.StreamProcessingOffload.Agent.csproj
+    TEST_PROJECT: HAProxy.StreamProcessingOffload.Agent.Tests/HAProxy.StreamProcessingOffload.Agent.Tests.csproj
   build:
     runs-on: ubuntu-latest
     
@@ -21,7 +19,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.1.x
-        source-url: ${{env.NUGET_URL}}
+        source-url: https://api.nuget.org/v3/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     - name: Restore dependencies Agent
       run: dotnet restore ${{ env.MAIN_PROJECT }}
     - name: Build Agent

@@ -4,8 +4,10 @@ nuget_version=$1
 github_pat=$(cat "$2")
 nuget_package="./HAProxy.StreamProcessingOffload.Agent/bin/Release/HAProxy.StreamProcessingOffload.Agent.$nuget_version.nupkg"
 
+mv ./rename_to_publish.nuget.config ./nuget.config
 dotnet clean
 dotnet build -c Release
 dotnet test
 dotnet pack -c Release --version-suffix "criteo"
-dotnet nuget push "$nuget_package" --api-key "$github_pat" --source "github"
+echo dotnet nuget push "$nuget_package" --api-key "$github_pat" --source "github"
+mv ./nuget.config ./rename_to_publish.nuget.config
