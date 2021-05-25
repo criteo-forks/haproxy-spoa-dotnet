@@ -29,6 +29,6 @@ jobs:
     - name: Build Tests
       run: dotnet build ${{ env.TEST_PROJECT }} --no-restore -c Release
     - name: Run Tests
-      run: dotnet test ${{ env.TEST_PROJECT }} --no-build --verbosity normal
+      run: dotnet test ${{ env.TEST_PROJECT }} --no-build -c Release --verbosity normal
     - name: Publish Agent
       run: dotnet publish ${{ env.MAIN_PROJECT }}  --no-build -c Release --version-suffix "criteo"
