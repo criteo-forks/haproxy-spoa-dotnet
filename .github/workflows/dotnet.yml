@@ -20,18 +20,15 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.1.x
-    - name: Restore dependencies
-      run: 
-        dotnet restore ${{ env.MAIN_PROJECT }}
-        dotnet restore ${{ env.TEST_PROJECT }}
-    - name: Build
-      run: 
-        dotnet build ${{ env.MAIN_PROJECT }} --no-restore -c Release
-        dotnet build ${{ env.TEST_PROJECT }} --no-restore -c Release
-    - name: Test
-      run: 
-        dotnet test ${{ env.TEST_PROJECT }} --no-build --verbosity normal
-    - name: Publish
-      run: 
-        dotnet publish ${{ env.MAIN_PROJECT }}  --no-build -c Release --version-suffix "criteo"
-
+    - name: Restore dependencies Agent
+      run: dotnet restore ${{ env.MAIN_PROJECT }}
+    - name: Build Agent
+      run: dotnet build ${{ env.MAIN_PROJECT }} --no-restore -c Release
+    - name: Restore dependencies Test
+      run: dotnet restore ${{ env.TEST_PROJECT }}
+    - name: Build Tests
+      run: dotnet build ${{ env.TEST_PROJECT }} --no-restore -c Release
+    - name: Run Tests
+      run: dotnet test ${{ env.TEST_PROJECT }} --no-build --verbosity normal
+    - name: Publish Agent
+      run: dotnet publish ${{ env.MAIN_PROJECT }}  --no-build -c Release --version-suffix "criteo"
