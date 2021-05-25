@@ -9,7 +9,7 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   MAIN_PROJECT: HAProxy.StreamProcessingOffload.Agent/HAProxy.StreamProcessingOffload.Agent.csproj
-  TEST_PROJECT: HAProxy.StreamProcessingOffload.Agent/HAProxy.StreamProcessingOffload.Agent.Tests.csproj
+  TEST_PROJECT: HAProxy.StreamProcessingOffload.Agent.Tests/HAProxy.StreamProcessingOffload.Agent.Tests.csproj
 jobs:
   build:
     runs-on: ubuntu-latest
