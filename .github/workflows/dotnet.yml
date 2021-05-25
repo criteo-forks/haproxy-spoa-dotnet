@@ -6,28 +6,30 @@ on:
   pull_request:
     branches: [ master ]
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  NUGET_URL: https://api.nuget.org/v3/index.json
-  MAIN_PROJECT: HAProxy.StreamProcessingOffload.Agent/HAProxy.StreamProcessingOffload.Agent.csproj
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+    env:
+      MAIN_PROJECT: HAProxy.StreamProcessingOffload.Agent/HAProxy.StreamProcessingOffload.Agent.csproj
+      TEST_PROJECT: HAProxy.StreamProcessingOffload.Agent.Tests/HAProxy.StreamProcessingOffload.Agent.Tests.csproj
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.1.x
-        source-url: ${{ env.NUGET_URL }}
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-    - name: Publish
-      run: dotnet publish ${{ env.MAIN_PROJECT }} -c Release --version-suffix "criteo"
-
+        source-url: https://api.nuget.org/v3/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    - name: Restore dependencies Agent
+      run: dotnet restore ${{ env.MAIN_PROJECT }}
+    - name: Build Agent
+      run: dotnet build ${{ env.MAIN_PROJECT }} --no-restore -c Release
+    - name: Restore dependencies Test
+      run: dotnet restore ${{ env.TEST_PROJECT }}
+    - name: Build Tests
+      run: dotnet build ${{ env.TEST_PROJECT }} --no-restore -c Release
+    - name: Run Tests
+      run: dotnet test ${{ env.TEST_PROJECT }} --no-build -c Release --verbosity normal
+    - name: Publish Agent
+      run: dotnet publish ${{ env.MAIN_PROJECT }}  --no-build -c Release --version-suffix "criteo"
