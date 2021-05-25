@@ -7,7 +7,8 @@ on:
     branches: [ master ]
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  NUGET_URL: https://api.nuget.org/v3/index.json
   MAIN_PROJECT: HAProxy.StreamProcessingOffload.Agent/HAProxy.StreamProcessingOffload.Agent.csproj
   TEST_PROJECT: HAProxy.StreamProcessingOffload.Agent.Tests/HAProxy.StreamProcessingOffload.Agent.Tests.csproj
 jobs:
@@ -20,6 +21,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.1.x
+        source-url: ${{env.NUGET_URL}}
     - name: Restore dependencies Agent
       run: dotnet restore ${{ env.MAIN_PROJECT }}
     - name: Build Agent
